@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DürrBet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        header {
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin: 10px;
+            flex: 1 1 30%;
+            min-width: 300px;
+        }
+        h2 {
+            text-align: center;
+            color: #004080;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #004080;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0066cc;
+        }
+        footer {
+            background-color: #004080;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            overflow: hidden;
+        }
+        .ticker {
+            white-space: nowrap;
+            display: inline-block;
+            animation: scroll 15s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .admin-panel {
+            display: none;
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+        .bet-item {
+            border-bottom: 1px solid #ccc;
+            padding: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>DürrBet</header>
+    <main>
+        <!-- Columna 1: Formulario de apuestas -->
+        <section>
+            <h2>Haz tu apuesta</h2>
+            <form id="betForm">
+                <label>Equipo ganador:
+                    <select id="equipoGanador">
+                        <option value="Azul">Azul</option>
+                        <option value="Blanco">Blanco</option>
+                    </select>
+                </label>
+                <label>Goles totales:
+                    <input type="number" id="golesTotales" min="0">
+                </label>
+                <label>Goles del equipo Azul:
+                    <input type="number" id="golesAzul" min="0">
+                </label>
+                <label>Goles del equipo Blanco:
+                    <input type="number" id="golesBlanco" min="0">
+                </label>
+                <label>Mejor jugador del partido:
+                    <select id="mejorJugadorPartido"></select>
+                </label>
+                <label>Mejor jugador del equipo Azul:
+                    <select id="mejorJugadorAzul"></select>
+                </label>
+                <label>Mejor jugador del equipo Blanco:
+                    <select id="mejorJugadorBlanco"></select>
+                </label>
+                <label>Peor jugador del partido:
+                    <select id="peorJugadorPartido"></select>
+                </label>
+                <label>Peor jugador del equipo Azul:
+                    <select id="peorJugadorAzul"></select>
+                </label>
+                <label>Peor jugador del equipo Blanco:
+                    <select id="peorJugadorBlanco"></select>
+                </label>
+                <label>Entrenador azul expulsado:
+                    <select id="entrenadorAzulExpulsado">
+                        <option value="No">No</option>
+                        <option value="Sí">Sí</option>
+                    </select>
+                </label>
+                <label>Entrenador blanco expulsado:
+                    <select id="entrenadorBlancoExpulsado">
+                        <option value="No">No</option>
+                        <option value="Sí">Sí</option>
+                    </select>
+                </label>
+                <label>Árbitro apaleado:
+                    <select id="arbitroApaleado">
+                        <option value="No">No</option>
+                        <option value="Sí">Sí</option>
+                    </select>
+                </label>
+                <button type="submit">Enviar apuesta</button>
+            </form>
+        </section>
+
+        <!-- Columna 2: Resultados -->
+        <section>
+            <h2>Resultados</h2>
+            <div id="results"></div>
+            <div class="admin-panel" id="adminPanel">
+                <h3>Panel de administrador</h3>
+                <div id="adminActions"></div>
+            </div>
+        </section>
+
+        <!-- Columna 3: Alineaciones -->
+        <section>
+            <h2>Alineaciones</h2>
+            <h3>Equipo Azul</h3>
+            <ul>
+                <li>Entrenador: Iñigo Unzueta</li>
+                <li>Ismael Diez</li>
+                <li>Asier Fernandez</li>
+                <li>Iñigo Uriol</li>
+                <li>Joseba Placeres</li>
+                <li>Endika Iriondo</li>
+                <li>Ibon Machain</li>
+                <li>Israel Chamorro</li>
+                <li>Oscar Merquelanz</li>
+            </ul>
+            <h3>Equipo Blanco</h3>
+            <ul>
+                <li>Entrenador: Joaquin Guillen</li>
+                <li>Aitor Mateos</li>
+                <li>Alexis Lucas</li>
+                <li>Mikel Goikoetxea</li>
+                <li>Ruben Pardo</li>
+                <li>Alberto Rodriguez</li>
+                <li>Ibai Erostarbe</li>
+                <li>Pablo Huertas</li>
+                <li>Carlos Ruiz</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <div class="ticker">Esta página es una broma y no pretende herir los sentimientos de nadie.</div>
+    </footer>
+
+    <script>
+        // Simulación de autenticación Microsoft 365
+        const currentUser = "eseasami"; // Simulación: cambiar para probar
+
+        // Jugadores
+        const jugadoresAzul = ["Ismael Diez","Asier Fernandez","Iñigo Uriol","Joseba Placeres","Endika Iriondo","Ibon Machain","Israel Chamorro","Oscar Merquelanz"];
+        const jugadoresBlanco = ["Aitor Mateos","Alexis Lucas","Mikel Goikoetxea","Ruben Pardo","Alberto Rodriguez","Ibai Erostarbe","Pablo Huertas","Carlos Ruiz"];
+        const todosJugadores = jugadoresAzul.concat(jugadoresBlanco);
+
+        function populateSelect(id, options) {
+            const select = document.getElementById(id);
+            options.forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt;
+                option.textContent = opt;
+                select.appendChild(option);
+            });
+        }
+
+        populateSelect('mejorJugadorPartido', todosJugadores);
+        populateSelect('peorJugadorPartido', todosJugadores);
+        populateSelect('mejorJugadorAzul', jugadoresAzul);
+        populateSelect('peorJugadorAzul', jugadoresAzul);
+        populateSelect('mejorJugadorBlanco', jugadoresBlanco);
+        populateSelect('peorJugadorBlanco', jugadoresBlanco);
+
+        // Control de duplicidad y almacenamiento
+        const bets = JSON.parse(localStorage.getItem('bets') || '[]');
+
+        function renderResults() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            bets.forEach((bet, index) => {
+                const div = document.createElement('div');
+                div.className = 'bet-item';
+                div.textContent = `${bet.user}: ${bet.equipoGanador}, Goles Totales: ${bet.golesTotales}`;
+                resultsDiv.appendChild(div);
+
+                if(currentUser === 'eseasami') {
+                    const btn = document.createElement('button');
+                    btn.textContent = 'Eliminar';
+                    btn.onclick = () => {
+                        bets.splice(index, 1);
+                        localStorage.setItem('bets', JSON.stringify(bets));
+                        renderResults();
+                    };
+                    div.appendChild(btn);
+                }
+            });
+        }
+
+        renderResults();
+
+        if(currentUser === 'eseasami') {
+            document.getElementById('adminPanel').style.display = 'block';
+        }
+
+        document.getElementById('betForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if(bets.some(b => b.user === currentUser)) {
+                alert('Ya has realizado una apuesta.');
+                return;
+            }
+            const bet = {
+                user: currentUser,
+                equipoGanador: document.getElementById('equipoGanador').value,
+                golesTotales: document.getElementById('golesTotales').value
+            };
+            bets.push(bet);
+            localStorage.setItem('bets', JSON.stringify(bets));
+            renderResults();
+        });
+    </script>
+</body>
+</html>
